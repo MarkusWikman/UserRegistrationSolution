@@ -5,16 +5,13 @@ namespace UserRegistrationService
 {
     public class UserRegistration
     {
-        public List<UserRegistration> Users { get; set; } = new List<UserRegistration>();
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
+        public List<User> Users { get; set; } = new List<User>();
 
         public void RegisterNewUser(string username, string password, string email)
         {
             if (ValidateUserName(username) == true && ValidatePassword(password) == true && ValidateEmail(email) == true) 
             { 
-                var u = new UserRegistration();
+                var u = new User();
                 u.UserName = username;
                 u.Password = password;
                 u.Email = email;
@@ -23,15 +20,24 @@ namespace UserRegistrationService
         }
         public bool ValidateUserName(string username)
         {
-            for(int i = 0; i < Users.Count; i++)
+            if (CheckIfUserNameAlreadyExists(username) == true)
+            {
+                if (username.Length >= 5 && username.Length <= 20 && username.All(char.IsLetterOrDigit))
+                    return true;
+            }
+            return false;
+        }
+
+        private bool CheckIfUserNameAlreadyExists(string username)
+        {
+            for (int i = 0; i < Users.Count; i++)
             {
                 if (Users[i].UserName.ToLower() == username.ToLower())
                     return false;
             }
-            if (username.Length >= 5 && username.Length <= 20 && username.All(char.IsLetterOrDigit))
-                return true;
-            return false;
+            return true;
         }
+
         public bool ValidatePassword(string password)
         {
             if (password.Length >= 8 && !password.All(char.IsLetterOrDigit))
@@ -48,5 +54,12 @@ namespace UserRegistrationService
                 return true;
             return false;
         }
+    }
+    public class User
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+
     }
 }

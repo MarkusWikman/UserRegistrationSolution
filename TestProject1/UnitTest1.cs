@@ -46,7 +46,6 @@ namespace TestProject1
         public void ValidateUsername_ShouldFailIfUsernameAlreadyExists()
         {
             var userRegistration = new UserRegistration();
-            
         }
     }
 }
