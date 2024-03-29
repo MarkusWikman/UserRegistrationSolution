@@ -5,7 +5,11 @@ namespace UserRegistrationService
 {
     public class UserRegistration
     {
-        public List<User> Users { get; set; } = new List<User>();
+        public List<User> Users { get; set; }
+        public UserRegistration()
+        {
+            Users = new List<User>();
+        }
 
         public void RegisterNewUser(string username, string password, string email)
         {
@@ -16,11 +20,12 @@ namespace UserRegistrationService
                 u.Password = password;
                 u.Email = email;
                 Users.Add(u);
+                Console.WriteLine($"{username} was added succesfully!");
             }
         }
         public bool ValidateUserName(string username)
         {
-            if (CheckIfUserNameAlreadyExists(username) == true)
+            if (CheckIfUserNameDoesNotAlreadyExists(username) == true)
             {
                 if (username.Length >= 5 && username.Length <= 20 && username.All(char.IsLetterOrDigit))
                     return true;
@@ -28,7 +33,7 @@ namespace UserRegistrationService
             return false;
         }
 
-        private bool CheckIfUserNameAlreadyExists(string username)
+        public bool CheckIfUserNameDoesNotAlreadyExists(string username)
         {
             for (int i = 0; i < Users.Count; i++)
             {
